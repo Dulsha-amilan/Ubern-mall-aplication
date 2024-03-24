@@ -36,6 +36,9 @@ app.use("/item",ItemRouter);
 
 const locationRoutes = require('./Routes/locationRoutes');
 app.use('/api', locationRoutes);
+
+
+
 // Connect to MongoDB
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {

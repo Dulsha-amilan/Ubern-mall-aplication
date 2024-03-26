@@ -16,7 +16,7 @@ import Home from './Dulsha/components/Home'
 
 //Employees
 
-
+import UserProfile from './Dulsha/components/Profile'
 
 //janidu
 import CusHome from './Janidu/cushome';
@@ -107,8 +107,8 @@ function App() {
             <Route path="/deleteOrder/:id" element={<DeleteOrder/>}/>
             <Route path="/location" element={<Location/>}/>
             <Route path="/addshop" element={<Addshop/>}/>
-            <Route path="/profile" element={<Profile/>}/>
-
+         
+            <Route path="/Profile" element={<UserProfile/>}/>
             <Route path="/suppliereg" element={<SupplierReg/>}/>
             <Route path="/supplielog" element={<SupplierLog/>}/>
 

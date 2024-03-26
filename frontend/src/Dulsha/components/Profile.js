@@ -1,43 +1,36 @@
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-// function UserProfile() {
-//     const [userData, setUserData] = useState(null);
-//     const [loading, setLoading] = useState(true);
+export default function Profilepage() {
+    const [user, setUser] = useState(null);
 
-//     useEffect(() => {
-//         const fetchUserData = async () => {
-//             try {
-//                 const token = localStorage.getItem('token');
-//                 const config = {
-//                     headers: {
-//                         'x-auth-token': token
-//                     }
-//                 };
-//                 const response = await axios.get('http://localhost:5000/api/users/profile', config);
-//                 setUserData(response.data);
-//                 setLoading(false);
-//             } catch (error) {
-//                 console.error('Error fetching user data:', error);
-//             }
-//         };
-
-//         fetchUserData();
-//     }, []);
-
-//     if (loading) {
-//         return <div>Loading...</div>;
-//     }
-
-//     return (
-//         <div>
-//             <h1>User Profile</h1>
-//             <p><strong>First Name:</strong> {userData.firstName}</p>
-//             <p><strong>Last Name:</strong> {userData.lastName}</p>
-//             <p><strong>Email:</strong> {userData.email}</p>
-//             {/* Add more fields as needed */}
-//         </div>
-//     );
-// }
-
-// export default UserProfile;
+    useEffect(() => {
+        const fetchUser = async () => {
+            const token = localStorage.getItem("token");
+            const userId = JSON.parse(localStorage.getItem("user"))._id;
+            try {
+                const { data } = await axios.get(`http://localhost:5000/api/auth/profile/${userId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setUser(data);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        };
+        fetchUser();
+    }, []);
+  return (
+    <div>
+            {user && (
+                <div>
+                    <h2>Welcome, {user.firstName}</h2>
+                    <p>Email: {user.email}</p>
+                    <img class="rounded w-36 h-36" src={`http://localhost:5000/images/${user.filepath}`} alt="Extra large avatar"></img>
+                    {/* Add form fields to update user details */}
+                </div>
+            )}
+        </div>
+  )
+}

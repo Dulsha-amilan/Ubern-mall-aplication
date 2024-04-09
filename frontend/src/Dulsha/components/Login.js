@@ -47,7 +47,7 @@ function Login(){
         try {
            
             if (data.email === "admin@gmail.com" && data.password === "admin") {
-                window.location = "/Dashboard";
+                window.location = "/Admin";
             } else {
               const url = "http://localhost:5000/api/auth";
               const { data: res } = await axios.post(url, data);

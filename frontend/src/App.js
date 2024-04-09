@@ -74,7 +74,7 @@ import SupplierProfile from './Chathura/supplierProfile/SupplierProfile';
 import SupplierRegister from './Chathura/supplierProfile/SupplierRegister';
 import SupplierProduct from './Chathura/supplierProfile/SupplierProduct';
 import SupplierLogin from './Chathura/supplierProfile/SupplierLogin';
-
+import Addlocation from './Dulsha/components/Addlocationdetails';
 function App() {
   return (
     <div className="App">
@@ -107,12 +107,11 @@ function App() {
             <Route path="/deleteOrder/:id" element={<DeleteOrder/>}/>
             <Route path="/location" element={<Location/>}/>
             <Route path="/addshop" element={<Addshop/>}/>
-         
+            <Route path="/addlocation" element={<Addlocation/>}/>
             <Route path="/Profile" element={<UserProfile/>}/>
             <Route path="/suppliereg" element={<SupplierReg/>}/>
             <Route path="/supplielog" element={<SupplierLog/>}/>
-
-
+           
             {/*yasith*/}
             <Route path="/shopp" element={<Shopp/>} />
         {/* <Route path="/navbar" element={<Navbar/>}/> */}

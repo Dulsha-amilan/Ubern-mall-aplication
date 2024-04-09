@@ -3,13 +3,12 @@ import SideBar from "./Sidebar";
 import axios from 'axios';
 import ApexCharts from 'apexcharts';
 
-
 export default function Admin() {
     const [userCount, setUserCount] = useState(0);
     const [employeeCount, setEmployeeCount] = useState(0);
     const [shopCount, setShopCount] = useState(0);
     const [itemCount, setItemCount] = useState(0);
-    const [isMounted, setIsMounted] = useState(false);
+    const [chart, setChart] = useState(null); // State to store chart instance
 
     useEffect(() => {
         async function fetchData() {
@@ -26,42 +25,44 @@ export default function Admin() {
                 const itemResponse = await axios.get('http://localhost:5000/item/count');
                 setItemCount(itemResponse.data.count);
 
+                // Render chart after data is fetched
+                renderPieChart(shopResponse.data.count, employeeResponse.data.count, userResponse.data.count, itemResponse.data.count);
+
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         }
 
         fetchData();
-        setIsMounted(true);
     }, []);
 
     useEffect(() => {
-        if (isMounted) {
-            renderPieChart();
+        // Update chart when counts change
+        if (chart) {
+            chart.updateSeries([shopCount, employeeCount, userCount, itemCount]);
         }
-    }, [userCount, employeeCount, shopCount, itemCount, isMounted]);
+    }, [shopCount, employeeCount, userCount, itemCount, chart]);
 
-    const renderPieChart = () => {
-        if (userCount !== 0 && employeeCount !== 0 && shopCount !== 0 && itemCount !== 0) {
-            const options = {
-                series: [shopCount, employeeCount, userCount, itemCount],
-                colors: ["#9061F9", "#16BDCA", "#1C64F2", '#ffa07a'],
-                chart: {
-                    height: 420,
-                    width: "100%",
-                    type: "pie",
-                },
-                labels: ["Total Shops", "Total Employees", "Total Users", "Total Items"],
-                legend: {
-                    position: "bottom",
-                    fontSize: "14px",
-                    color: "#ffffff"
-                },
-            };
+    const renderPieChart = (shopCount, employeeCount, userCount, itemCount) => {
+        const options = {
+            series: [shopCount, employeeCount, userCount, itemCount],
+            colors: ["#9061F9", "#16BDCA", "#1C64F2", '#ffa07a'],
+            chart: {
+                height: 420,
+                width: "100%",
+                type: "pie",
+            },
+            labels: ["Total Shops", "Total Employees", "Total Users", "Total Items"],
+            legend: {
+                position: "bottom",
+                fontSize: "14px",
+                color: "#ffffff"
+            },
+        };
 
-            const chart = new ApexCharts(document.getElementById("pie-chart"), options);
-            chart.render();
-        }
+        const newChart = new ApexCharts(document.getElementById("pie-chart"), options);
+        newChart.render();
+        setChart(newChart); // Set chart instance in state
     };
 
     return (

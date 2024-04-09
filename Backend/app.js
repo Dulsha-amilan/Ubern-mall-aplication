@@ -37,7 +37,10 @@ app.use("/item",ItemRouter);
 const locationRoutes = require('./Routes/locationRoutes');
 app.use('/api', locationRoutes);
 
-
+const collectingdetailRoutes = require("./Routes/collectingdetailRoute.js");
+app.use("/Api/Addcollectingdata", collectingdetailRoutes);
+const fillingdetailRoutes = require("./Routes/fillingdetailRoute.js");
+app.use("/Api/Fillingdetails", fillingdetailRoutes);
 
 // Connect to MongoDB
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })

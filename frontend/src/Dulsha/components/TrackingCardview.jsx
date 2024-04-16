@@ -93,23 +93,8 @@ export default function TrackingCardview() {
       )}
     </CardContent>
       
-      <CardActions disableSpacing>
-      <Button size="small" onClick={handleExpandClick}>View More Details</Button>
-
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-        <TrackingFillingdetails/>
-        </CardContent>
-      </Collapse>
+     
+     
     </Card>
   );
 }

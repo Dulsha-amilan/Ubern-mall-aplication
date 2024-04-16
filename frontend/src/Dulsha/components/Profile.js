@@ -17,7 +17,7 @@ export default function Profilepage() {
                 setUser(data);
             } catch (error) {
                 console.error("Error fetching user data:", error);
-            }
+            }//sdasd
         };
         fetchUser();
     }, []);

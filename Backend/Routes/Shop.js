@@ -1,5 +1,6 @@
 const router =  require("express").Router();
 let Shop = require("../Model/Shop");
+const Item = require("../Model/Item");
 
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
@@ -116,6 +117,39 @@ router.route("/count").get(async (req, res) => {
     } catch (err) {
         console.error(err.message);
         res.status(500).send({ error: "Error getting Shop count" });
+    }
+});
+router.route("/:id/items").get(async (req, res) => {
+    const shopId = req.params.id;
+
+    try {
+        // Query the database for items associated with the provided shop ID
+        const items = await Item.find({ shop: shopId });
+
+        // Return the items associated with the shop in the response
+        res.json(items);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+router.route("/:id").get(async (req, res) => {
+    const shopId = req.params.id;
+
+    try {
+        // Query the database for the shop details using the provided ID
+        const shop = await Shop.findById(shopId);
+
+        if (!shop) {
+            return res.status(404).json({ error: "Shop not found" });
+        }
+
+        // Return the shop details in the response
+        res.json(shop);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
     }
 });
 

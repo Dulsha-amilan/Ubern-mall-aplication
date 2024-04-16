@@ -17,6 +17,7 @@ import { toast, ToastContainer } from "react-toastify";
 
 export default function CusHome(){
   const [featuredStores, setFeaturedStores] = useState([]);
+  const { id } = useParams();
 
   useEffect(() => {
     // Fetch featured stores data from your backend API
@@ -107,7 +108,7 @@ export default function CusHome(){
               <p className="text-gray-600 mb-4 text-center">
                 {store.catogory} {/* Assuming catogory is the category of the store */}
               </p>
-              <Link to={`http://localhost:5000/shop/${store._id}`} className="bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
+              <Link to={`http://localhost:5000/shop/${id}/items`} className="bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
                 Visit Store
               </Link>
             </div>

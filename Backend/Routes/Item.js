@@ -1,6 +1,6 @@
 const router =  require("express").Router();
 let Item = require("../Model/Item");
-
+const Shop = require("../Model/Shop");
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const path = require("path");
@@ -27,39 +27,32 @@ const fileFilter = (req, file, cb) => {
 let upload = multer({ storage, fileFilter })
 
 
-router.route("/add").post(upload.single("filepath"),(req,res)=>{
+router.route("/add").post(upload.single("filepath"), async (req, res) => {
+    try {
+        const { ItemID, name, price, category, description, count, join, selectedShop } = req.body;
 
-    const ItemID = req.body.ItemID;
-    const name = req.body.name;
-    const filepath = req.file.filename;
-    const price = Number( req.body.price);
-    const catogory = req.body.catogory;
-    const description=req.body.description;
-    const count=Number(req.body.count) ;
-    const join = req.body.join;
+        // Retrieve the selected shop details from the database
+        const shop = await Shop.findById(selectedShop);
 
-    const newItem = new Item({
-        ItemID,
-        name,
-        filepath,  
-        price,   
-        catogory,
-        description,
-        count,
+        const newItem = new Item({
+            ItemID,
+            name,
+            filepath: req.file.filename,
+            price,
+            category,
+            description,
+            count,
+            join,
+            shop: shop // Associate the shop with the item
+        });
 
-        join
-        
-    })
-
-    console.log(req.file)
-
-    newItem.save().then(()=>{
-        res.json("Item Added")
-    }).catch((err)=>{
+        await newItem.save();
+        res.json("Item Added");
+    } catch (err) {
         console.log(err);
-    })
-})
-
+        res.status(500).json({ error: "Error adding item" });
+    }
+});
 router.route("/").get((req,res)=>{
 
     Item.find().then((Item)=>{

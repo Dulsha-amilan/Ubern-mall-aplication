@@ -160,7 +160,7 @@ const Addlocationdetails = () => {
     { name: "Kurunegala", coordinates: "7.485868240115851, 80.36430279599983" },
     { name: "Rajagiriya", coordinates: "6.909246272982172, 79.89611987096255" },
   ];
-  const names = ["Organic waste", "Hazardous waste", "Recyclable waste"]; // Define the names array
+  const names = ["Fashion Item", "Food Item", "Frutis Item"]; // Define the names array
 
   const handleChange = (event) => {
     const { name, value } = event.target;

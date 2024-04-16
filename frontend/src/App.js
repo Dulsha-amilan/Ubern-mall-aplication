@@ -60,7 +60,7 @@ import ShopCategory from "./Yasith/Pages/ShopCategory";
 import men_banner from './Yasith/Components/Assets/banner_mens.png';
 import women_banner from './Yasith/Components/Assets/banner_women.png';
 import kid_banner from './Yasith/Components/Assets/banner_kids.png';
-
+import ShopView from './Dulsha/components/shopview';
 
 //Supplier
 import SupplierReg from './Dulsha/components/SupplierRegister';
@@ -111,7 +111,7 @@ function App() {
             <Route path="/Profile" element={<UserProfile/>}/>
             <Route path="/suppliereg" element={<SupplierReg/>}/>
             <Route path="/supplielog" element={<SupplierLog/>}/>
-           
+            <Route path="/shop/:id" component={ShopView} />
             {/*yasith*/}
             <Route path="/shopp" element={<Shopp/>} />
         {/* <Route path="/navbar" element={<Navbar/>}/> */}

@@ -25,10 +25,12 @@ const ItemSchema = new Schema({
         required: true
     },
 
-     catogory:{
-        type:String,
-        required: true
-    },
+   
+    category: {
+  type: String,
+  required: true
+},
+
 
     description:{
         type: String,
@@ -41,7 +43,12 @@ const ItemSchema = new Schema({
 
      join:{
         type:String
-    }
+    },
+    shop: {
+        type: Schema.Types.ObjectId,
+        ref: 'Shop'
+      }
+      
 })
 
 const Item = mongoose.model("Item",ItemSchema);

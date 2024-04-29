@@ -62,6 +62,17 @@ router.route("/").get((req,res)=>{
     })
 })
 
+// In your item router
+router.route("/shop/:shopId").get(async (req, res) => {
+    try {
+      const items = await Item.find({ shop: req.params.shopId });
+      res.json(items);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send({ error: "Error getting items for this shop" });
+    }
+  });
+  
 
 router.route("/count").get(async (req, res) => {
     try {

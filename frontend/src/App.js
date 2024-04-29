@@ -37,7 +37,7 @@ import ShopCategory from "./Yasith/Pages/ShopCategory";
 import men_banner from './Yasith/Components/Assets/banner_mens.png';
 import women_banner from './Yasith/Components/Assets/banner_women.png';
 import kid_banner from './Yasith/Components/Assets/banner_kids.png';
-import ShopView from './Dulsha/components/shopview';
+
 import SupplierReg from './Dulsha/components/SupplierRegister';
 import SupplierLog from './Dulsha/components/Supplierlogin';
 import Item from './Chathura/Chathura';
@@ -50,6 +50,7 @@ import SupplierRegister from './Chathura/supplierProfile/SupplierRegister';
 import SupplierProduct from './Chathura/supplierProfile/SupplierProduct';
 import SupplierLogin from './Chathura/supplierProfile/SupplierLogin';
 import Addlocation from './Dulsha/components/Addlocationdetails';
+import ShopDetails from './Dulsha/components/shopview';
 function App() {
   return (
     <div className="App">
@@ -78,7 +79,6 @@ function App() {
             <Route path="/Profile" element={<UserProfile/>}/>
             <Route path="/suppliereg" element={<SupplierReg/>}/>
             <Route path="/supplielog" element={<SupplierLog/>}/>
-            <Route path="/shop/:id" component={ShopView} />
             <Route path="/shopp" element={<Shopp/>} />
             <Route path="/mens" element={<ShopCategory banner={men_banner} category="men"/>}/>
             <Route path="/womens" element={<ShopCategory banner={women_banner} category="women"/>}/>
@@ -96,6 +96,8 @@ function App() {
             <Route path = "/SupllierPostView" element = { <SupllierPostView/>} />
             <Route path = "/SupplierProduct" element = { <SupplierProduct/>} />
             <Route path = "/about" element = { <AboutUs/>} />
+            <Route exact path="/shop/:id" element={<ShopDetails />} />
+
 
         </Routes>
         <ToastContainer

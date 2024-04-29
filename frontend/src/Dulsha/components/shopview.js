@@ -1,30 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useParams } from 'react-router-dom'; // Import useParams
 
-export default function CusHome() {
-  const [items, setItems] = useState([]);
-  const { id } = useParams();
+const ShopDetails = () => {
+  const [shop, setShop] = useState(null);
+  const { id } = useParams(); // Get the id parameter from the URL
 
   useEffect(() => {
-    // Fetch items associated with the selected shop
-    axios.get(`http://localhost:5000/shop/${id}/items`)
+    axios.get(`http://localhost:5000/shop/${id}`)
       .then(response => {
-        setItems(response.data);
+        setShop(response.data);
       })
       .catch(error => {
-        console.error('Error fetching items:', error);
+        console.error('Error fetching shop details:', error);
       });
-  }, [id]);
+  }, [id]); // Include id in the dependency array
 
   return (
     <div>
-      <h2>Items in this shop:</h2>
-      <ul>
-        {items.map(item => (
-          <li key={item._id}>{item.name}</li>
-        ))}
-      </ul>
+      {shop ? (
+        <div>
+          <h2>{shop.name}</h2>
+          <p>{shop.catogory}</p>
+          {/* Add more details as needed */}
+        </div>
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
-}
+};
+
+export default ShopDetails;

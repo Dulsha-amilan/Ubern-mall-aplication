@@ -1,43 +1,54 @@
 import React, { useState } from "react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Lottie from 'react-lottie';
 import animationData from '../components/images/Animation - 1710828800567.json';
 import 'react-toastify/dist/ReactToastify.css';
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
 
-function Register(){
-    const [data,setData] = useState({
-        firstName:"",
-        lastName:"",
-        address:"",
-        contactNo:"",
-        email:"",
-        password:""
-    })
-    const [error,setError] = useState("")
-
+function Register() {
+    const [data, setData] = useState({
+        firstName: "",
+        lastName: "",
+        address: "",
+        contactNo: "",
+        email: "",
+        password: "",
+        profileImage: null,
+    });
+    const [error, setError] = useState("");
+    const [previewImage, setPreviewImage] = useState(null);
     const navigate = useNavigate();
 
-    const handleChange = ({ currentTarget:input }) => {
-        setData({...data,[input.name]: input.value })
-    }
+    const handleChange = ({ target }) => {
+        setData(prevData => ({ ...prevData, [target.name]: target.value }));
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        setData(prevData => ({ ...prevData, profileImage: file }));
+        setPreviewImage(URL.createObjectURL(file));
+    };
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-
-        try{
-            const url = "http://localhost:5000/api/users";
-            const { data:res } = await axios.post(url,data);
-            navigate("/login")
-            console.log(res.message);
-        }catch(error){
-            if(error.response && error.response.status >= 400 && error.response.status <= 500){
-                setError(error.response.data.message)
+        e.preventDefault();
+        try {
+            const formData = new FormData();
+            for (let key in data) {
+                formData.append(key, data[key]);
             }
-
+            const url = "http://localhost:5000/api/users";
+            const { data: res } = await axios.post(url, formData);
+            navigate("/login");
+            console.log(res.message);
+        } catch (error) {
+            if (error.response && error.response.status >= 400 && error.response.status <= 500) {
+                setError(error.response.data.message);
+            }
         }
-    }
+    };
 
     return(
         <div>
@@ -70,7 +81,7 @@ function Register(){
                     </h1>
                     <form class="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                         <div class="flex space-x-4"> 
-                            <div class="w-1/2">
+                        <div class="w-1/2">
                                 <label for="firstName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
                                 <input type="text" name="firstName" id="firstName" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="First Name" value={data.firstName} required onChange={handleChange}/>
                             </div>
@@ -103,7 +114,31 @@ function Register(){
                         onChange={handleChange}/>
                             
                         </div>
-                     
+                     <div>
+                     <Grid item xs={12}>
+                  <input
+                    accept="image/*"
+                    id="profileImage"
+                    type="file"
+                    style={{ display: "none" }}
+                    onChange={handleFileChange}
+                  />
+                  <label htmlFor="profileImage">
+                  {previewImage && (
+                      <img class="w-20 h-20 rounded-full" src={previewImage} alt="Rounded avatar"></img>
+                  )}
+                    <Button
+                      variant="contained"
+                      component="span"
+                      sx={{ mt: 3 }}
+                    >
+                      Upload Profile Picture
+                    </Button>
+                  </label>
+                 
+              
+                </Grid>
+                     </div>
                               
                         <div class="flex items-start">
                             <div class="flex items-center h-5">

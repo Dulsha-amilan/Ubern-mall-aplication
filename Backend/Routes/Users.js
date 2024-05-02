@@ -85,6 +85,13 @@ router.post("/", upload.single("profileImage"), async (req, res) => {
     }
 });
 
-// Other routes...
+router.get("/count", async (req, res) => {
+    try {
+        const count = await User.countDocuments();
+        res.status(200).json({ count });
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+});
 
 module.exports = router;

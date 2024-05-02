@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import Header from '../../Janidu/navbar';
+import Footer from '../../Janidu/footer';
 
 const ShopDetails = () => {
   const [shop, setShop] = useState(null);
@@ -29,9 +31,11 @@ const ShopDetails = () => {
 
   return (
     <div>
+       <Header />
       {shop ? (
-        <div>
-          <h2>{shop.name}</h2>
+        <div >
+           <h1 className="text-3xl font-bold mb-8 text-center">{shop.name} Shop</h1>
+          <h2>Our Products</h2>
           <p>{shop.category}</p>
           <h3>Items in this Shop:</h3>
           {items.length > 0 ? (
@@ -50,6 +54,7 @@ const ShopDetails = () => {
       ) : (
         <p>Loading...</p>
       )}
+           <Footer />
     </div>
   );
 };

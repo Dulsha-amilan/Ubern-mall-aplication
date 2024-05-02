@@ -15,6 +15,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TextField from "@mui/material/TextField";
+import Header from '../../Janidu/navbar';
 
 
 export default function ProfilePage() {
@@ -102,10 +103,13 @@ export default function ProfilePage() {
 
   return (
     <div>
+            <Header />
+            
       <Box sx={{ flexGrow: 1, mt: 15 }}>
         <Grid container spacing={1}>
           <Grid item xs={1}></Grid>
           <Grid item xs={4}>
+      
             <Card sx={{ maxWidth: 400 }}>
               {user && user.profileImage && ( // Check if user and profileImage exist
                 <CardMedia
@@ -176,7 +180,7 @@ export default function ProfilePage() {
                   component="div"
                   sx={{ textAlign: "center" }}
                 >
-                  Welcome, {user.firstName} {user.lastName}
+                  Hi, {user.firstName} {user.lastName}
                 </Typography>
                 <TextField
                   fullWidth

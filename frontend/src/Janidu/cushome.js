@@ -103,7 +103,128 @@ export default function CusHome() {
           </div>
         </div>
       </div>
-      {/* Other sections */}
+ {/* Dining Section */}
+ <div className="bg-gray-100 py-12">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">
+            Dining Experience
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <img
+                src="https://via.placeholder.com/600x400"
+                alt="Dining Area"
+                className="rounded-lg shadow-md"
+              />
+            </div>
+            <div>
+              <h3 className="text-2xl font-bold mb-4">Savor the Flavors</h3>
+              <p className="text-gray-600 mb-4">
+                Indulge in a culinary adventure with our diverse selection of
+                restaurants, cafes, and eateries. From casual dining to fine
+                dining, we have something to satisfy every palate.
+              </p>
+              <button className="bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
+                View Restaurants
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Events Section */}
+      <div className="container mx-auto px-4 py-12">
+        <h2 className="text-3xl font-bold text-gray-800 mb-4">
+          Upcoming Events
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Event Card 1 */}
+          <div className="bg-white rounded-lg shadow-md p-6 flex flex-col">
+            <img
+              src="https://via.placeholder.com/400x200"
+              alt="Event Image"
+              className="mb-4 rounded-lg"
+            />
+            <h3 className="text-lg font-bold mb-2">Music Festival</h3>
+            <p className="text-gray-600 mb-4">
+              Join us for a weekend of live music, food, and fun at our annual
+              music festival.
+            </p>
+            <button className="bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors duration-300 mt-auto">
+              Learn More
+            </button>
+          </div>
+          {/* Event Card 2 */}
+          <div className="bg-white rounded-lg shadow-md p-6 flex flex-col">
+            <img
+              src="https://via.placeholder.com/400x200"
+              alt="Event Image"
+              className="mb-4 rounded-lg"
+            />
+            <h3 className="text-lg font-bold mb-2">Art Exhibition</h3>
+            <p className="text-gray-600 mb-4">
+              Explore the works of talented local artists at our art exhibition.
+            </p>
+            <button className="bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors duration-300 mt-auto">
+              Learn More
+            </button>
+          </div>
+          {/* Event Card 3 */}
+          <div className="bg-white rounded-lg shadow-md p-6 flex flex-col">
+            <img
+              src="https://via.placeholder.com/400x200"
+              alt="Event Image"
+              className="mb-4 rounded-lg"
+            />
+            <h3 className="text-lg font-bold mb-2">Fitness Challenge</h3>
+            <p className="text-gray-600 mb-4">
+              Join our fitness challenge and get motivated to stay active and
+              healthy.
+            </p>
+            <button className="bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors duration-300 mt-auto">
+              Learn More
+            </button>
+          </div>
+        </div>
+      </div>
+
+     {/* Contact Section */}
+<div className="bg-gray-100 py-12">
+  <div className="container mx-auto px-4">
+    <h2 className="text-3xl font-bold text-gray-800 mb-4">
+      Get in Touch
+    </h2>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div>
+        <h3 className="text-2xl font-bold mb-4">Visit Us</h3>
+        <div className="mb-4 flex items-center">
+          <FaMapMarkerAlt className="text-indigo-600 mr-2" />
+          <p className="text-gray-600">123 Main Street, City, State</p>
+        </div>
+        <div className="mb-4 flex items-center">
+          <FaPhoneAlt className="text-indigo-600 mr-2" />
+          <p className="text-gray-600">(123) 456-7890</p>
+        </div>
+        <div className="flex items-center">
+          <FaEnvelope className="text-indigo-600 mr-2" />
+          <p className="text-gray-600">info@mallwebsite.com</p>
+        </div>
+      </div>
+      <div>
+        <h3 className="text-2xl font-bold mb-4">Send a Message</h3>
+        <button
+          onClick={() => {
+            // Redirect logic here
+            window.location.href = '/feedback';
+          }}
+          className="bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors duration-300"
+        >
+          Contact Us
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
       <ChatbotPopup />
       <Footer />
     </div>

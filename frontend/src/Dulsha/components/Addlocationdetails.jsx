@@ -1,137 +1,3 @@
-// import React, { useState } from "react";
-// import Box from "@mui/material/Box";
-// import TextField from "@mui/material/TextField";
-// import Button from "@mui/material/Button";
-// import Grid from "@mui/material/Grid";
-// import Select from "@mui/material/Select";
-// import MenuItem from "@mui/material/MenuItem";
-// import InputLabel from "@mui/material/InputLabel";
-// import FormControl from "@mui/material/FormControl";
-// import axios from "axios";
-// import Typography from "@mui/material/Typography";
-// import { API_BASE_URL } from "../../utils/constants";
-
-// const Addlocationdetails = () => {
-//   const [formData, setFormData] = useState({
-//     startPoint: "",
-//     endPoint: "",
-//     date: "",
-//     garbageType: [],
-//   });
-
-//   const names = ["Organic waste", "Hazardous waste", "Recyclable waste"]; // Define the names array
-
-//   const handleChange = (event) => {
-//     const { name, value } = event.target;
-//     setFormData((prevData) => ({
-//       ...prevData,
-//       [name]: value,
-//     }));
-//   };
-
-//   const handleSubmit = async (event) => {
-//     event.preventDefault();
-//     try {
-//       const response = await axios.post(
-//         `${API_BASE_URL}/Api/Addcollectingdata/add/collectingdetail`,
-//         formData
-//       );
-//       console.log(response.data); // Log the response from the server
-//       // Reset form after successful submission
-//       setFormData({
-//         startPoint: "",
-//         endPoint: "",
-//         date: "",
-//         garbageType: [],
-//       });
-//       alert("Collecting detail added successfully!");
-//     } catch (error) {
-//       console.error("Error:", error.message);
-//       alert("Failed to add collecting detail");
-//     }
-//   };
-
-//   return (
-//     <Box component="form" onSubmit={handleSubmit} noValidate>
-//       <Grid container spacing={2}>
-//         <Grid item xs={12}>
-//           <Typography
-//             component="h1"
-//             // variant="h6"
-//             color="inherit"
-//             noWrap
-//             sx={{ flexGrow: 1 }}
-//           >
-//             Adding Location Details
-//           </Typography>
-//         </Grid>
-//         <Grid item xs={12} sm={6}>
-//           <TextField
-//             autoComplete="given-name"
-//             name="startPoint"
-//             required
-//             fullWidth
-//             id="startPoint"
-//             label="Start Point"
-//             autoFocus
-//             value={formData.startPoint}
-//             onChange={handleChange}
-//           />
-//         </Grid>
-//         <Grid item xs={12} sm={6}>
-//           <TextField
-//             required
-//             fullWidth
-//             id="endPoint"
-//             label="End Point"
-//             name="endPoint"
-//             autoComplete="family-name"
-//             value={formData.endPoint}
-//             onChange={handleChange}
-//           />
-//         </Grid>
-//         <Grid item xs={12}>
-//           <TextField
-//             required
-//             fullWidth
-//             id="date"
-//             label="Date"
-//             name="date"
-//             type="date"
-//             InputLabelProps={{
-//               shrink: true,
-//             }}
-//             value={formData.date}
-//             onChange={handleChange}
-//           />
-//         </Grid>
-//         <Grid item xs={12}>
-//           <FormControl fullWidth>
-//             <InputLabel>Garbage Type</InputLabel>
-//             <Select
-//               multiple
-//               value={formData.garbageType}
-//               onChange={handleChange}
-//               inputProps={{ "aria-label": "Select Garbage Type" }}
-//               name="garbageType"
-//             >
-//               {names.map((name) => (
-//                 <MenuItem key={name} value={name}>
-//                   {name}
-//                 </MenuItem>
-//               ))}
-//             </Select>
-//           </FormControl>
-//         </Grid>
-//       </Grid>
-//       <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-//         Add
-//       </Button>
-//     </Box>
-//   );
-// };
-
-// export default Addlocationdetails;
 import React, { useState } from "react";
 import axios from "axios";
 import Box from "@mui/material/Box";
@@ -143,7 +9,6 @@ import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Typography from "@mui/material/Typography";
-
 
 const Addlocationdetails = () => {
   const [formData, setFormData] = useState({
@@ -160,7 +25,7 @@ const Addlocationdetails = () => {
     { name: "Kurunegala", coordinates: "7.485868240115851, 80.36430279599983" },
     { name: "Rajagiriya", coordinates: "6.909246272982172, 79.89611987096255" },
   ];
-  const names = ["Fashion Item", "Food Item", "Frutis Item"]; // Define the names array
+  const names = ["Fashion Item", "Food Item", "Fruits Item"]; // Corrected typo in "Fruits Item"
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -210,72 +75,81 @@ const Addlocationdetails = () => {
       alert("Failed to add collecting detail");
     }
   };
-  
+
   return (
-    <Box component="form" onSubmit={handleSubmit} noValidate>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Typography
-            component="h1"
-            color="inherit"
-            noWrap
-            sx={{ flexGrow: 1 }}
-          >
-            Adding Location Details
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth>
-            <InputLabel>Start Point</InputLabel>
-            <Select
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      noValidate
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+      }}
+    >
+      <Box sx={{ width: '400px' }}>
+        <Typography
+          component="h1"
+          color="inherit"
+          noWrap
+          sx={{ textAlign: 'center', mb: 2 }}
+        >
+          Adding Location Details
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <InputLabel>Start Point</InputLabel>
+              <Select
+                required
+                value={formData.startPoint}
+                onChange={handleChange}
+                name="startPoint"
+              >
+                {locations.map((location) => (
+                  <MenuItem key={location.name} value={location.name}>
+                    {location.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <InputLabel>End Point</InputLabel>
+              <Select
+                required
+                value={formData.endPoint}
+                onChange={handleChange}
+                name="endPoint"
+              >
+                {locations.map((location) => (
+                  <MenuItem key={location.name} value={location.name}>
+                    {location.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
               required
-              value={formData.startPoint}
+              fullWidth
+              id="date"
+              label="Date"
+              name="date"
+              type="date"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              value={formData.date}
               onChange={handleChange}
-              name="startPoint"
-            >
-              {locations.map((location) => (
-                <MenuItem key={location.name} value={location.name}>
-                  {location.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={6}>
+            />
+          </Grid>
+          <Grid item xs={12}>
           <FormControl fullWidth>
-            <InputLabel>End Point</InputLabel>
-            <Select
-              required
-              value={formData.endPoint}
-              onChange={handleChange}
-              name="endPoint"
-            >
-              {locations.map((location) => (
-                <MenuItem key={location.name} value={location.name}>
-                  {location.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            required
-            fullWidth
-            id="date"
-            label="Date"
-            name="date"
-            type="date"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            value={formData.date}
-            onChange={handleChange}
-          />
-        </Grid>
-        <Grid item xs={12}>
-           <FormControl fullWidth>
-             <InputLabel>Garbage Type</InputLabel>
+             <InputLabel>Pakege Type</InputLabel>
              <Select
                multiple
                value={formData.garbageType}
@@ -290,11 +164,19 @@ const Addlocationdetails = () => {
                ))}
              </Select>
            </FormControl>
-         </Grid>
-      </Grid>
-      <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-        Add
-      </Button>
+           </Grid>
+        </Grid>
+        <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2, width: '100%' }}>
+       Add
+        </Button>
+        <br />
+        <a href="/location" className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              View Map
+               <svg className="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+              </svg>
+          </a>
+      </Box>
     </Box>
   );
 };

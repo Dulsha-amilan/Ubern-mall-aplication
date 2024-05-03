@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/generative-ai';
 
 const MODEL_NAME = 'gemini-1.0-pro-001';
-const API_KEY = 'AIzaSyAbLNBI871tIKjqE69IJt8C7Pg0hQmYWzQ';
+const API_KEY = 'AIzaSyAbLNBI871tIKjqE69IJt8C7Pg0hQmYWzQ'; 
 
 const ChatbotPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,6 +11,7 @@ const ChatbotPopup = () => {
   const [genAI, setGenAI] = useState(null);
   const [model, setModel] = useState(null);
   const [isThinking, setIsThinking] = useState(false);
+  const [shopDescription, setShopDescription] = useState('');
 
   useEffect(() => {
     const initGeminAI = async () => {
@@ -24,6 +25,12 @@ const ChatbotPopup = () => {
     initGeminAI();
   }, []);
 
+
+  useEffect(() => {
+    const description = `"Hi there! I'm Vitsy, your friendly assistant from UrbanMall. How can I help you today?"\n\nCertainly! Here's a description of the shops in UrbanMall:\n\n1. **Moose (1st Floor, 3rd Showroom):**\n Moose is a trendy clothing shop known for its stylish and casual wear. It offers a wide range of clothing options for men, women, and children, including tops, bottoms, and accessories. The atmosphere in Moose is vibrant and welcoming, attracting shoppers looking for fashionable yet comfortable attire.\n\n2. **Nike (2nd Floor, 2nd Showroom):**\n Nike is a renowned brand famous for its athletic apparel and footwear. Located on the second floor of UrbanMall, the Nike showroom is a haven for sports enthusiasts and fashion-forward individuals alike. Here, shoppers can explore the latest collections of sports shoes, activewear, and accessories designed to enhance performance and style.\n\n3. **Lacoste (2nd Floor, 4th Showroom):**\n Lacoste is synonymous with sophistication and timeless elegance. As a luxury footwear brand, Lacoste offers premium-quality shoes crafted from fine materials with meticulous attention to detail. Located on the second floor of UrbanMall, the Lacoste showroom exudes a sense of luxury, inviting shoppers to indulge in the brand's iconic designs and classic silhouettes.\n\n**Bot Prompt:**\n"Welcome to UrbanMall! I'm Vitsy, your virtual shopping assistant here to make your shopping experience exceptional. How can I assist you today? Whether you're looking for trendy clothing at Moose, high-performance sportswear at Nike, or luxurious footwear at Lacoste, I'm here to help you find exactly what you need. Just let me know what you're looking for, and I'll guide you through the latest collections and special offers available at UrbanMall's top shops!"`;
+    setShopDescription(description);
+  }, []);
+
   const toggleChatbot = () => {
     setIsOpen(!isOpen);
   };
@@ -34,9 +41,7 @@ const ChatbotPopup = () => {
 
   const handleSendMessage = async () => {
     if (inputValue.trim() && genAI && model) {
-      // Clear the input field
       setInputValue('');
-    
       setMessages([...messages, { sender: 'user', text: inputValue }]);
       setIsThinking(true);
 
@@ -65,19 +70,19 @@ const ChatbotPopup = () => {
           threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
         },
       ];
-  
+
+      const parts = [
+        { text: inputValue },
+        { text: shopDescription }
+      ];
+
       try {
         const result = await model.generateContent({
-            contents: [
-                {
-                  role: 'user',
-                  parts: [{ text: inputValue }],
-                },
-              ],
+          contents: [{ role: 'user', parts }],
           generationConfig,
           safetySettings,
         });
-  
+
         const response = result.response;
         setMessages([
           ...messages,
@@ -94,12 +99,8 @@ const ChatbotPopup = () => {
       }
       
       setIsThinking(false);
-      
     }
-  
   };
-
-  
 
   return (
     <div className="fixed bottom-4 right-4">

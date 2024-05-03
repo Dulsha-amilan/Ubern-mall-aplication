@@ -51,6 +51,7 @@ import SupplierProduct from './Chathura/supplierProfile/SupplierProduct';
 import SupplierLogin from './Chathura/supplierProfile/SupplierLogin';
 import Addlocation from './Dulsha/components/Addlocationdetails';
 import ShopDetails from './Dulsha/components/shopview';
+import Shopdetails from './Dulsha/components/Shopdetails';
 function App() {
   return (
     <div className="App">
@@ -96,6 +97,7 @@ function App() {
             <Route path = "/SupllierPostView" element = { <SupllierPostView/>} />
             <Route path = "/SupplierProduct" element = { <SupplierProduct/>} />
             <Route path = "/about" element = { <AboutUs/>} />
+            <Route path = "/dd" element = { <Shopdetails/>} />
             <Route exact path="/shop/:id" element={<ShopDetails />} />
 
 

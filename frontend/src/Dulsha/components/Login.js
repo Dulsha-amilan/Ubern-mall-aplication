@@ -15,31 +15,48 @@ function Login(){
         setData({ ...data, [input.name]: input.value });
     }
 
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //         if(data.email === "admin@gmail.com" && data.password === "admin"){
+    //             toast.success("Admin Add sucessfuly",{theme:'colored'});
+    //             window.location = "/Admin";
+    //         }
+    //         else {
+    //             const url = "http://localhost:5000/api/auth";
+    //             const { data: res } = await axios.post(url, data);
+    //             localStorage.setItem("token", res.data);
+    //             // Navigate to profile after successful login
+    //             window.location = "/"; // Change "/profile" to your actual profile route
+    //             toast.success("User add sucessfuly",{theme:'colored'});
+    //         }
+    //     } catch (error) {
+    //         if (
+    //             error.response &&
+    //             error.response.status >= 400 &&
+    //             error.response.status <= 500
+    //         ) {
+    //             setError(error.response.data.message);
+    //         } else {
+    //             setError(error.response.data);
+    //         }
+    //     }
+    // };
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            if(data.email === "admin@gmail.com" && data.password === "admin"){
-                toast.success("Admin Add sucessfuly",{theme:'colored'});
+           
+            if (data.email === "admin@gmail.com" && data.password === "admin") {
                 window.location = "/Admin";
-            }
-            else {
-                const url = "http://localhost:5000/api/auth";
-                const { data: res } = await axios.post(url, data);
-                localStorage.setItem("token", res.data);
-                // Navigate to profile after successful login
-                window.location = "/"; // Change "/profile" to your actual profile route
-                toast.success("User add sucessfuly",{theme:'colored'});
+            } else {
+              const url = "http://localhost:5000/api/auth";
+              const { data: res } = await axios.post(url, data);
+                localStorage.setItem("token", res.data.token);
+                localStorage.setItem("user", JSON.stringify(res.data.user));
+                window.location = "/";
             }
         } catch (error) {
-            if (
-                error.response &&
-                error.response.status >= 400 &&
-                error.response.status <= 500
-            ) {
-                setError(error.response.data.message);
-            } else {
-                setError(error.response.data);
-            }
+            setError(error.response.data.message);
         }
     };
 

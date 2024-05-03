@@ -2,8 +2,31 @@ const router = require("express").Router();
 const { User, validate } = require("../Model/User");
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
+const multer = require("multer");
+const fs = require("fs");
+const { v4: uuidv4 } = require('uuid');
+const path = require("path");
 
-// Function to send email
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './images');
+    },
+    filename: function (req, file, cb) {
+        cb(null, uuidv4() + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    const allowedFileTypes = ["image/jpeg", "image/jpg", "image/png"];
+    if (allowedFileTypes.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+}
+
+let upload = multer({ storage, fileFilter });
+// Define sendEmail function
 async function sendEmail(userEmail) {
     try {
         const transporter = nodemailer.createTransport({
@@ -28,21 +51,31 @@ async function sendEmail(userEmail) {
     }
 }
 
-router.post("/", async (req, res) => {
+
+router.post("/", upload.single("profileImage"), async (req, res) => {
     try {
         const { error } = validate(req.body);
-        if (error)
-            return res.status(400).send({ message: error.details[0].message });
+        if (error) return res.status(400).send({ message: error.details[0].message });
 
-        const user = await User.findOne({ email: req.body.email });
-        if (user)
-            return res.status(409).send({ message: "User with given email already exists" });
-        
+        let user = await User.findOne({ email: req.body.email });
+        if (user) return res.status(409).send({ message: "User with given email already exists" });
+
         const salt = await bcrypt.genSalt(Number(process.env.SALT));
         const hashPassword = await bcrypt.hash(req.body.password, salt);
-         
-        await new User({ ...req.body, password: hashPassword }).save();
-        
+
+        // Save profile image
+        let profileImage = null;
+        if (req.file) {
+            profileImage = req.file.path;
+        }
+
+        user = new User({
+            ...req.body,
+            password: hashPassword,
+            profileImage,
+        });
+        await user.save();
+
         // Send email notification to user
         await sendEmail(req.body.email);
 
@@ -51,6 +84,7 @@ router.post("/", async (req, res) => {
         res.status(500).send({ message: error.message });
     }
 });
+
 router.get("/count", async (req, res) => {
     try {
         const count = await User.countDocuments();
@@ -59,23 +93,5 @@ router.get("/count", async (req, res) => {
         res.status(500).send({ message: error.message });
     }
 });
-
-router.get("/profile", async (req, res) => {
-    try {
-        const token = req.header("x-auth-token");
-        if (!token)
-            return res.status(401).send({ message: "Access denied. No token provided." });
-
-        const decoded = jwt.verify(token, process.env.JWTPRIVATEKEY);
-        const user = await User.findById(decoded._id).select("-password");
-        if (!user)
-            return res.status(404).send({ message: "User not found." });
-
-        res.status(200).send(user);
-    } catch (error) {
-        res.status(500).send({ message: error.message });
-    }
-});
-
 
 module.exports = router;

@@ -99,16 +99,18 @@ router.route("/delete/:id").delete(async (req , res) => {
      })
 })
 
-router.route("/get/:id").get(async (req,res)=>{
-    let userId = req.params.id;
-    const user = await Shop.findById(userId)
-    .then((shop) =>{
-        res.status(200).send({status: "User fetched", shop})
-    }).catch((err) =>{
-        console.log(err.message);
-        res.status(500).send({status: "Error with get user", error: err.message});
-    })
+
+
+router.route("/:id").get(async (req, res) => {
+    try {
+        const shop = await Shop.findById(req.params.id);
+        res.json(shop);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send({ error: "Error getting shop details" });
+    }
 });
+
 router.route("/count").get(async (req, res) => {
     try {
         const count = await Shop.countDocuments();
@@ -120,4 +122,3 @@ router.route("/count").get(async (req, res) => {
 });
 
 module.exports = router;
-

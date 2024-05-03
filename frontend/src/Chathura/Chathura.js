@@ -5,19 +5,26 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import Lottie from 'react-lottie';
 import animationData from './Images/Animation - 1711108589839.json';
+
 export default function AddEmployee() {
+  const [shops, setShops] = useState([]);
+  const [selectedShop, setSelectedShop] = useState("");
   const [ItemID, setItemID] = useState(
     `item${Math.floor(Math.random() * 10000).toString().padStart(4, "0")}`
   );
   const [name, setName] = useState("");
   const [filepath, setFilepath] = useState("");
   const [price, setPrice] = useState("");
-  const [catogory, setCatogory] = useState("");
+  const [category,setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [count, setCount] = useState("");
   const [join, setJoin] = useState(getCurrentDate());
   const [errors, setErrors] = useState({});
   const [phoneError, setPhoneError] = useState("");
+
+const [selectedShopId, setSelectedShopId] = useState("");
+
+
 
   function getCurrentDate() {
     const currentDate = new Date();
@@ -29,7 +36,17 @@ export default function AddEmployee() {
 
   useEffect(() => {
     setJoin(getCurrentDate());
+    fetchShops();
   }, []);
+
+  const fetchShops = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/shop");
+      setShops(response.data);
+    } catch (error) {
+      console.error("Error fetching shops:", error);
+    }
+  };
 
   const handlePhoneChange = (e) => {
     setPrice(e.target.value);
@@ -47,6 +64,7 @@ export default function AddEmployee() {
   const handleImage = (e) => {
     setFilepath(e.target.files[0]);
   };
+  
 
   const sendData = (e) => {
     e.preventDefault();
@@ -58,32 +76,33 @@ export default function AddEmployee() {
     formData.append("count", count);
     formData.append("description", description);
     formData.append("price", price);
-    formData.append("catogory", catogory);
+    formData.append("category", category);
     formData.append("join", join);
+    formData.append("selectedShop", selectedShopId); // Use selectedShopId
+    // Remove formData.append("selectedShop", selectedShop);
 
     axios
-      .post("http://localhost:5000/item/add", formData)
-      .then(() => {
-        toast.success("Item Added Successfully!", { theme: "colored" });
-      })
-      .catch((err) => {
-        toast.error(err);
-      });
-  };
+        .post("http://localhost:5000/item/add", formData)
+        .then(() => {
+            toast.success("Item Added Successfully!", { theme: "colored" });
+        })
+        .catch((err) => {
+            toast.error(err);
+        });
+};
 
   return (
-    
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "100vh",
-          backgroundImage: `url("../images/finance-background.jpg")`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        backgroundImage: `url("../images/finance-background.jpg")`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <div className= "container" style={{display:"flex"}}>
         <ToastContainer></ToastContainer>
         <div className="container" style={{ display: "flex" }}>
@@ -124,11 +143,11 @@ export default function AddEmployee() {
                 />
               </div>
               <div className="mb-5">
-                <label class="block mb-2 text-sm font-medium text-gray-900 white :text-dark">Upload Image:</label>
+                <label class="block mb-2 text-sm font-medium text-gray-900 white:text-dark">Upload Image:</label>
                 <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" onChange={handleImage} />
               </div>
               <div className="mb-5">
-                <label class="block mb-2 text-sm font-medium text-gray-900 white :text-dark">Price:</label>
+                <label class="block mb-2 text-sm font-medium text-gray-900 white:text-dark">Price:</label>
                 <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   type="text"
                   value={price}
@@ -136,20 +155,21 @@ export default function AddEmployee() {
                 />
               </div>
               <div className="mb-5">
-                <label class="block mb-2 text-sm font-medium text-gray-900 white :text-dark">Category:</label>
-                <select
-               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  value={catogory}
-                  onChange={(e) => setCatogory(e.target.value)}
-                >
-                  <option value="">Select Category</option>
-                  <option value="Chef">Nike</option>
-                  <option value="Waiter">Boots</option>
-                  <option value="Reseptionist">Bags</option>
-                  <option value="Cleaner">Food corner</option>
-                  <option value="Driver">Pizza</option>
-                </select>
-              </div>
+  <label className="block mb-2 text-sm font-medium text-gray-900 white:text-dark">Category:</label>
+  <select
+    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+    value={category} 
+    onChange={(e) => setCategory(e.target.value)} 
+  >
+    <option value="">Select Category</option>
+    <option value="Chef">Nike</option>
+    <option value="Waiter">Boots</option>
+    <option value="Reseptionist">Bags</option>
+    <option value="Cleaner">Food corner</option>
+    <option value="Driver">Pizza</option>
+  </select>
+</div>
+
               <div className="mb-5">
                 <label class="block mb-2 text-sm font-medium text-gray-900 white:text-dark">Description:</label>
                 <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -175,6 +195,22 @@ export default function AddEmployee() {
                   value={join}
                   onChange={(e) => setJoin(e.target.value)}
                 />
+              </div>
+              <div className="mb-5">
+                <label class="block mb-2 text-sm font-medium text-gray-900 white:text-dark">Select Shop:</label>
+                <select
+  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+  value={selectedShopId}
+  onChange={(e) => setSelectedShopId(e.target.value)}
+>
+  <option value="">Select Shop</option>
+  {shops.map((shop) => (
+    <option key={shop._id} value={shop._id}> {/* Use shop._id */}
+      {shop.name}
+    </option>
+  ))}
+</select>
+
               </div>
               <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="submit">Add</button>
               <Link class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"  to={"/viewemployee"}>Back</Link>

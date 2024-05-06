@@ -9,7 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Typography from "@mui/material/Typography";
-
+import Header from '../../Janidu/navbar';
 const Addlocationdetails = () => {
   const [formData, setFormData] = useState({
     startPoint: "",
@@ -77,6 +77,8 @@ const Addlocationdetails = () => {
   };
 
   return (
+    <div>
+      <Header/>
     <Box
       component="form"
       onSubmit={handleSubmit}
@@ -178,6 +180,7 @@ const Addlocationdetails = () => {
           </a>
       </Box>
     </Box>
+    </div>
   );
 };
 

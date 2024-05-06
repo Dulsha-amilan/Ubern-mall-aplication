@@ -112,7 +112,7 @@ export default function CusHome() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <img
-                src="https://via.placeholder.com/600x400"
+                src="https://th.bing.com/th/id/R.d75a595b138dbf20ee01b0881e09b664?rik=caoHB8Eu2nPzbg&pid=ImgRaw&r=0"
                 alt="Dining Area"
                 className="rounded-lg shadow-md"
               />
@@ -141,7 +141,7 @@ export default function CusHome() {
           {/* Event Card 1 */}
           <div className="bg-white rounded-lg shadow-md p-6 flex flex-col">
             <img
-              src="https://via.placeholder.com/400x200"
+              src="https://th.bing.com/th/id/OIP.WluCaau0noHKNeP9IW4RUwHaE8?rs=1&pid=ImgDetMain"
               alt="Event Image"
               className="mb-4 rounded-lg"
             />
@@ -157,7 +157,7 @@ export default function CusHome() {
           {/* Event Card 2 */}
           <div className="bg-white rounded-lg shadow-md p-6 flex flex-col">
             <img
-              src="https://via.placeholder.com/400x200"
+              src="https://th.bing.com/th/id/R.d6003cb03028a7255e3c1b4c42c55e56?rik=k9UyWCDSwj1Sig&pid=ImgRaw&r=0"
               alt="Event Image"
               className="mb-4 rounded-lg"
             />
@@ -172,7 +172,7 @@ export default function CusHome() {
           {/* Event Card 3 */}
           <div className="bg-white rounded-lg shadow-md p-6 flex flex-col">
             <img
-              src="https://via.placeholder.com/400x200"
+              src="https://imgix.theurbanlist.com/content/article/TheShoppes-MBS.jpg"
               alt="Event Image"
               className="mb-4 rounded-lg"
             />

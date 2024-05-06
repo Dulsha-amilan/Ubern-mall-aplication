@@ -49,6 +49,8 @@ export default function Addfillingdetail() {
     }
   };
   return (
+    <div>
+      
     <Box component="form" onSubmit={handleSubmit} noValidate>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -103,5 +105,6 @@ export default function Addfillingdetail() {
           Add
         </Button>
     </Box>
+    </div>
   )
 }

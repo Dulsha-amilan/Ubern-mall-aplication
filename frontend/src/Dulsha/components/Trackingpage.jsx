@@ -93,7 +93,7 @@ import { GoogleMap, useLoadScript, Marker, DirectionsService, DirectionsRenderer
 import axios from "axios";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-
+import Header from '../../Janidu/navbar';
 
 import TrackingCardview from "../components/TrackingCardview";
 
@@ -192,6 +192,7 @@ const Trackingpage = () => {
 
   return (
     <div>
+      <Header/>
       <Box sx={{ flexGrow: 1, marginTop: 10 }}>
         <Grid container spacing={3}>
           <Grid item xs={7}>
